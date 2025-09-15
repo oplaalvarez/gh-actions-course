@@ -24,4 +24,4 @@ jobs:
             - name: Show OS
               run: |
                 echo "This job is running on wINDOWS runner"
-                echo "Running on {{ runner.os }}"
+                echo "Running on ${{ runner.os }}"
