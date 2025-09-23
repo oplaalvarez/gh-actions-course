@@ -42,11 +42,11 @@ jobs:
               run: echo "The value of MY_VAR is ${{ vars.MY_VAR }}"
             - name: Print Env Vars
               env:
-                MY_OVERRITTEN_VAR: 'job'
+                MY_OVERRITTEN_VAR: 'step'
               run: |
                     echo "MY_WORKFLOW_VAR is ${{ env.MY_WORKFLOW_VAR }}"
                     echo "MY_OVERRITTEN_VAR is ${{ env.MY_OVERRITTEN_VAR }}"
-            - name: Print Env Vars'
+            - name: Print Env Vars
               run: |
                     echo "MY_WORKFLOW_VAR is ${{ env.MY_WORKFLOW_VAR }}"
                     echo "MY_OVERRITTEN_VAR is ${{ env.MY_OVERRITTEN_VAR }}"
