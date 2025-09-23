@@ -10,9 +10,15 @@ on:
         default: false
         description: 'Set to true to enable debug mode'
 
+env:
+    MY_WORKFLOW_VAR: 'workflow'
+    MY_OVERRITTEN_VAR: 'workflow'
 jobs:
     echo-data:
         runs-on: ubuntu-latest
+        env:
+            MY_JOB_VAR: 'job'
+            MY_OVERRITTEN_VAR: 'job'
         steps:
             - name: Display Information
               run: |
@@ -34,3 +40,13 @@ jobs:
 
             - name: Retrieve Variable
               run: echo "The value of MY_VAR is ${{ vars.MY_VAR }}"
+            - name: Print Env Vars
+              env:
+                MY_OVERRITTEN_VAR: 'job'
+              run: |
+                    echo "MY_WORKFLOW_VAR is ${{ env.MY_WORKFLOW_VAR }}"
+                    echo "MY_OVERRITTEN_VAR is ${{ env.MY_OVERRITTEN_VAR }}"
+            - name: Print Env Vars'
+              run: |
+                    echo "MY_WORKFLOW_VAR is ${{ env.MY_WORKFLOW_VAR }}"
+                    echo "MY_OVERRITTEN_VAR is ${{ env.MY_OVERRITTEN_VAR }}"
