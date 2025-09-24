@@ -3,7 +3,7 @@ name: "12 - Working with Outputs"
 on:
     workflow_dispatch:
         inputs:
-            build-status:
+            build-status-input:
                 type: choice
                 options:
                     - success
@@ -21,7 +21,7 @@ jobs:
               run: echo "$GITHUB_OUTPUT"
             - name: Build
               id: build
-              run: echo "status=${{inputs.build-status}}" >> "$GITHUB_OUTPUT"
+              run: echo "status=${{inputs.build-status-input}}" >> "$GITHUB_OUTPUT"
 
     deploy:
         runs-on: ubuntu-latest
