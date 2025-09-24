@@ -22,7 +22,6 @@ jobs:
             - name: Build
               id: build
               run: |
-                cat "$GITHUB_OUTPUT"
                 echo "status=${{inputs.build-status-input}}" >> "$GITHUB_OUTPUT"
                 cat "$GITHUB_OUTPUT"
 
