@@ -16,13 +16,13 @@ on:
                     20.x
                 description: "Node version selection"
 jobs:
-    install-steps:
+    install-deps:
         runs-on: ubuntu-latest
         defaults:
             run: 
               working-directory: 13-caching/react-app  
         outputs:
-            deps-cache-key: ${{ steps.cache-key.outputs.CACHE_KEY}}
+            deps-cache-key: ${{ steps.cache-key.outputs.CACHE_KEY }}
         steps:
             - name:  "Checkout code"
               uses: actions/checkout@v4  
@@ -48,7 +48,7 @@ jobs:
                 npm ci
     lint-test:
         runs-on: ubuntu-latest
-        needs: install-steps
+        needs: install-deps
         defaults:
             run: 
               working-directory: 13-caching/react-app  
@@ -65,14 +65,14 @@ jobs:
               id: cache_id
               with:
                 path: 13-caching/react-app/node_modules
-                key: $ {{ needs.install-steps.outputs.deps-cache-key }}
+                key: $ {{ needs.install-deps.outputs.deps-cache-key }}
             - name: "Testing"
               run: npm run test
             - name: "Linting"
               run: echo "Linting..."
     build:
         runs-on: ubuntu-latest
-        needs: install-steps
+        needs: install-deps
         defaults:
             run: 
               working-directory: 13-caching/react-app  
@@ -93,6 +93,11 @@ jobs:
               id: cache_id
               with:
                 path: 13-caching/react-app/node_modules
-                key: $ {{ needs.install-steps.outputs.deps-cache-key }}
+                key: ${{ needs.install-deps.outputs.deps-cache-key }}
+            - name: "Install dependencies"
+              if: steps.cache_id.outputs.cache-hit != 'true'
+              run: |
+                echo ${{ steps.cache_id.outputs.cache-hit }}
+                npm ci
             - name: "Building"
               run: npm run build
