@@ -66,6 +66,11 @@ jobs:
               with:
                 path: 13-caching/react-app/node_modules
                 key: $ {{ needs.install-deps.outputs.deps-cache-key }}
+            - name: "Install dependencies"
+              if: steps.cache_id.outputs.cache-hit != 'true'
+              run: |
+                echo ${{ steps.cache_id.outputs.cache-hit }}
+                npm ci
             - name: "Testing"
               run: npm run test
             - name: "Linting"
