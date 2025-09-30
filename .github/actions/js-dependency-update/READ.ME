@@ -1,0 +1,66 @@
+Exercise Description
+In this practical exercise, our goal is to explore how to setup a JavaScript custom action in GitHub Actions.
+
+The goal of our JavaScript custom action is to check for updates in the npm dependencies of a project, and to abstract that behind an easy-to-use reusable action. Here are the instructions for the exercise:
+
+Create the folder .github/actions/js-dependency-update. This folder is where we will host all the files for our JavaScript custom action.
+
+Open a terminal and change into this directory.
+
+Initialize an npm project by running the command npm init -y.
+
+Install the necessary dependencies by running npm install @actions/core@1.10.1 @actions/exec@1.1.1 @actions/github@6.0.0 --save-exact.
+
+Create a file named action.yaml under the folder .github/actions/js-dependency-update.
+
+In the action.yaml file, add the following properties:
+
+A name of Update NPM Dependencies;
+
+A description of "Checks if there are updates to NPM packages, and creates a PR with the updated package*.json files";
+
+Add a top-level runs key. This is the core of defining our JavaScript custom action. For a JavaScript custom action, the runs key has the following shape:
+
+runs:
+  using: node20
+  main: index.js
+where:
+
+using: <Node version> defines with which version of NodeJS the action will be run.
+
+main: <JavaScript file> defines which file will be executed as the entrypoint of our JavaScript custom action.
+
+Create an index.js file under the folder .github/actions/js-dependency-update and add the following code to the file:
+
+const core = require('@actions/core');
+ 
+async function run() { 
+  core.info('I am a custom JS action');
+}
+ 
+run();
+The code above is leveraging the @actions/core package to write a line to the output of our custom action. In the next exercise we will continue the development of the JavaScript code.
+
+Create a file named 17-2-custom-actions-js.yaml under the .github/workflows folder at the root of your repository.
+
+Name the workflow 17 - 2 - Custom Actions - JS.
+
+Add the following triggers with event filters and activity types to your workflow:
+
+workflow_dispatch
+
+Set the run-name option of the workflow to 17 - 2 - Custom Actions - JS.
+
+Add a single job named dependency-update to the workflow.
+
+It should run on ubuntu-latest.
+
+It should contain two steps:
+
+The first step should checkout the code.
+
+The second step, named Check for dependency updates, should use the recently created JS custom action. To reference a custom action created in the same repository as the workflow, you can simply provide the path of the directory where the action.yaml file is located. In this case, this would be ./.github/actions/js-dependency-update.
+
+Modify the .gitignore file at the root of the repository so that the node_modules folder under the js-dependency-update folder is not ignored. It should be committed if we want our action to work correctly. One way of doing that is to add the following like to the file: !.github/actions/**/node_modules. This will make sure that all node_modules folders under any subdirectory of the .github/actions folder are committed, while still ignoring the node_modules directories from other folders.
+
+Commit the changes and push the code. Trigger the workflow from the UI and take a few moments to inspect the output of the workflow run.
